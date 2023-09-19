@@ -95,15 +95,15 @@ class UserPieceAPIView(APIView):
         print('getting user-pieces')
         user = request.user
         print(f' Current User = {user.first_name}')
-        queryset = UserToPieces.objects.filter(user=user).select_related('user', 'piece')
+        # queryset = UserToPieces.objects.filter(user=user).select_related('user', 'piece')
 
-        queryset = Piece.objects.select_related('composer', 
-            'period', 
-            'type_of_piece', 
-            'category').prefetch_related(
-                'techniques', 'prereqs').all()
+        # queryset = Piece.objects.select_related('composer', 
+        #     'period', 
+        #     'type_of_piece', 
+        #     'category').prefetch_related(
+        #         'techniques', 'prereqs').all()
         
-        queryset = UserToPieces.objects.select_related( 
+        queryset = UserToPieces.objects.filter(user=user).select_related( 
             'piece', 
             'piece__composer',
             'piece__period',
@@ -123,10 +123,13 @@ class UserPieceAPIView(APIView):
             data = request.data
             mastery_level = data['mastery_level']
             piece = Piece.objects.get(id=data['piece'])
-            instance = UserToPieces(user=user, piece=piece, mastery_level=mastery_level)
-            instance.save()
-            serializer = UserToPiecesSerializer(instance)
-            return Response(data=json.dumps(serializer.data), status=status.HTTP_200_OK)
+            if not UserToPieces.objects.filter(user=user, piece=piece).exists():
+                instance = UserToPieces(user=user, piece=piece, mastery_level=mastery_level)
+                instance.save()
+                serializer = UserToPiecesSerializer(instance)
+                return Response(data=json.dumps(serializer.data), status=status.HTTP_200_OK)
+            else:
+                return Response(data={'message': 'User to Piece combination already exists'}, status=status.HTTP_400_BAD_REQUEST)
 
             
         except Exception as e:
