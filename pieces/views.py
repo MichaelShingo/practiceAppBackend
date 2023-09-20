@@ -29,6 +29,14 @@ import csv, os
 from django.conf import settings
 
 
+class CheckAuthView(APIView):
+    permission_classes = [IsAuthenticated]
+    
+    def get(self, request):
+        return Response({ 'authenticated': True })
+    
+check_auth_view = CheckAuthView.as_view()
+    
 class CategoriesAPIView(APIView):
     authentication_classes = [TokenAuthentication]
     permission_classes = [AllowAny]

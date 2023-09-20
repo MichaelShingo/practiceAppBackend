@@ -16,4 +16,5 @@ urlpatterns = [
     path('user-piece/<int:pk>/', views.user_piece_view),
     path('categories/', views.categories_view),
     path('types/', views.type_detail_view),
+    path('check-auth/', views.check_auth_view),
 ]
