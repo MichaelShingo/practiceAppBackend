@@ -9,7 +9,8 @@ from .models import (
     UserToPieces
 )
 
-class ComposerSerializer(serializers.ModelSerializer): # get full name
+
+class ComposerSerializer(serializers.ModelSerializer):  # get full name
     class Meta:
         model = Composer
         full_name = serializers.SerializerMethodField()
@@ -19,9 +20,10 @@ class ComposerSerializer(serializers.ModelSerializer): # get full name
             'full_name',
             'description',
         ]
-    
+
     def get_full_name(self, instance):
         return instance.full_name
+
 
 class PeriodSerializer(serializers.ModelSerializer):
     class Meta:
@@ -30,7 +32,9 @@ class PeriodSerializer(serializers.ModelSerializer):
             'id',
             'name',
             'description',
+            'sorting_order'
         ]
+
 
 class TypeOfPieceSerializer(serializers.ModelSerializer):
     class Meta:
@@ -38,7 +42,9 @@ class TypeOfPieceSerializer(serializers.ModelSerializer):
         fields = [
             'name',
             'description',
+            'sorting_order'
         ]
+
 
 class TechniqueSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,6 +56,7 @@ class TechniqueSerializer(serializers.ModelSerializer):
             'tutorial'
         ]
 
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -60,14 +67,16 @@ class CategorySerializer(serializers.ModelSerializer):
             'count',
         ]
 
+
 class PieceSerializer(serializers.ModelSerializer):
     composer = ComposerSerializer()
     sorting_title = serializers.SerializerMethodField()
+
     class Meta:
         model = Piece
         depth = 1
         composer = ComposerSerializer(read_only=True, source='composer')
-        
+
         fields = [
             'id',
             'category',
@@ -76,15 +85,17 @@ class PieceSerializer(serializers.ModelSerializer):
             'period',
             'techniques',
             'difficulty',
+            'tempo',
             'prereqs',
             'recording_link',
             'tutorial_link',
             'type_of_piece',
             'sorting_title',
         ]
-    
+
     def get_sorting_title(self, instance):
         return instance.sorting_title
+
 
 class UserToPiecesSerializer(serializers.ModelSerializer):
     class Meta:

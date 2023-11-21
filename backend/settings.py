@@ -53,7 +53,8 @@ REST_FRAMEWORK = {
 # 'rest_framework.permissions.AllowAny'
 # 'rest_framework.permissions.IsAuthenticated',
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(days=36525),  # Set the desired expiration time
+    # Set the desired expiration time
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=36525),
     # Other Simple JWT settings...
 }
 
