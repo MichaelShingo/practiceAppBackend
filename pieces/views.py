@@ -200,6 +200,8 @@ composer_detail_view = ComposerDetailAPIView.as_view()
 
 
 class InsertComposersAPIView(APIView):
+    queryset = Composer.objects.all()
+
     def get(self, request):
         serializer_class = ComposerSerializer
         print(settings.PROJECT_ROOT)
