@@ -75,6 +75,7 @@ INSTALLED_APPS = [
     'accounts',
     'pieces',
     'debug_toolbar',
+    'knox',
 ]
 
 AUTH_USER_MODEL = 'core.User'

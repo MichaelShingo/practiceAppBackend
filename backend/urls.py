@@ -20,14 +20,14 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from accounts.views import UserViewSet
+# from accounts.views import UserViewSet
 from rest_framework.routers import DefaultRouter
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('accounts.urls')),
     path('api/', include('pieces.urls')),
-    path('accounts/', include('core.urls')), # don't think you need this...
+    path('accounts/', include('core.urls')),  # don't think you need this...
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path("__debug__/", include("debug_toolbar.urls")),
@@ -35,6 +35,6 @@ urlpatterns = [
 ]
 
 router = DefaultRouter()
-router.register('user', UserViewSet, basename='user')
+# router.register('user', UserViewSet, basename='user')
 
 urlpatterns += router.urls
